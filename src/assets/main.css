@@ -1,0 +1,40 @@
+body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    /*display: flex;*/
+    /*flex-direction: column;*/
+    align-items: center;
+    max-width: 90%;
+    margin: auto;
+}
+
+.header {
+    margin-bottom: 20px;
+}
+
+.description {
+    margin: 10px auto;
+}
+
+.check-grammar {
+    background-color: #F4F7FC;
+    font-size: 14px;
+    padding: 12px;
+    color: #0A1E46;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+
+.corrected-text textarea {
+    background-color: #F4F7FC;
+    border: 1px solid #f1f1f1;
+}
+
+.original-text textarea {
+    border-left: 1px solid #f1f1f1;
+    border-top: 1px solid #f1f1f1;
+    border-bottom: 1px solid #f1f1f1;
+    border-right: 0px solid;
+    border-radius: 0px;
+}
