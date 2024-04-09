@@ -1,4 +1,4 @@
 export type Checker = {
-    corrected: string,
+    result: string,
     explanation: string
 };

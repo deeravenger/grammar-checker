@@ -5,7 +5,8 @@ declare global {
     interface AppConfigInterface {
         CONFIG_OPENAI_URL: string,
         CONFIG_OPENAI_TOKEN: string,
-        CONFIG_OPENAI_MODEL: string
+        CONFIG_OPENAI_MODEL: string,
+        CONFIG_TRANSLATE_FROM: string
     }
 }
 
@@ -15,6 +16,7 @@ export class AppConfig {
             CONFIG_OPENAI_URL: 'https://api.openai.com/v1/chat/completions',
             CONFIG_OPENAI_TOKEN: '',
             CONFIG_OPENAI_MODEL: 'gpt-4',
+            CONFIG_TRANSLATE_FROM: '',
             ...window.APP_CONFIG || {},
         };
     }
@@ -45,5 +47,9 @@ export class AppConfig {
             throw new Error('Please, provide the OpenAI model');
         }
         return model;
+    }
+
+    static getTranslateFrom(): string {
+        return AppConfig.getConfig().CONFIG_TRANSLATE_FROM;
     }
 }

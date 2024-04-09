@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import {ref, watch} from 'vue';
 import type {Ref} from 'vue';
-import {correctGrammar} from "@/services/api";
+import {correctGrammarApi, translateApi} from "@/services/api";
+import {AppConfig} from "@/utils/app-config.class";
 
 let originalText: Ref<string | null> = ref(localStorage.getItem('originalText') || '');
-let correctedText: Ref<string | null> = ref(localStorage.getItem('correctedText') || '');
+let resultText: Ref<string | null> = ref(localStorage.getItem('resultText') || '');
 let explanation: Ref<string | null> = ref(localStorage.getItem('explanation') || '');
 let grammarCheckInProgress = false;
 
@@ -12,14 +13,14 @@ watch(originalText, (newVal) => {
   if (typeof newVal === "string") {
     localStorage.setItem('originalText', newVal);
     if (newVal === '') {
-      correctedText.value = '';
+      resultText.value = '';
       explanation.value = '';
     }
   }
 });
-watch(correctedText, (newVal) => {
+watch(resultText, (newVal) => {
   if (typeof newVal === "string") {
-    localStorage.setItem('correctedText', newVal);
+    localStorage.setItem('resultText', newVal);
   }
 });
 watch(explanation, (newVal) => {
@@ -29,17 +30,29 @@ watch(explanation, (newVal) => {
 });
 
 function fixGrammar() {
-  if (grammarCheckInProgress) {
-    return;
-  }
   const text: string = originalText.value!.trim();
   if (text === '') {
     return;
   }
 
   // grammarCheckInProgress = true;
-  correctGrammar(text).then(result => {
-    correctedText.value = result.corrected;
+  correctGrammarApi(text).then(result => {
+    resultText.value = result.result;
+    explanation.value = result.explanation;
+  }).finally(() => {
+    // grammarCheckInProgress = false;
+  });
+}
+
+function translate() {
+  const text: string = originalText.value!.trim();
+  if (text === '') {
+    return;
+  }
+
+  // grammarCheckInProgress = true;
+  translateApi(text).then(result => {
+    resultText.value = result.result;
     explanation.value = result.explanation;
   }).finally(() => {
     // grammarCheckInProgress = false;
@@ -70,7 +83,10 @@ function fixGrammar() {
         <div class="col-6 pl-0">
           <div class="corrected-text">
             <div class="form-group">
-              <textarea class="form-control" rows="10" readonly v-model="correctedText"></textarea>
+              <textarea class="form-control" rows="10" readonly v-model="resultText"></textarea>
+            </div>
+            <div class="form-group" v-if="AppConfig.getTranslateFrom() !== ''">
+              <input type="submit" class="btn check-grammar" @click="translate" value="Translate">
             </div>
           </div>
         </div>
