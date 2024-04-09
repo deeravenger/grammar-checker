@@ -1,28 +1,12 @@
-declare global {
-    interface Window {
-        APP_CONFIG?: AppConfig;
-    }
-    interface AppConfigInterface {
-        CONFIG_OPENAI_URL: string,
-        CONFIG_OPENAI_TOKEN: string,
-        CONFIG_OPENAI_MODEL: string,
-        CONFIG_TRANSLATE_FROM: string
-    }
-}
-
 export class AppConfig {
     static getConfig(): AppConfigInterface {
         return {
-            CONFIG_OPENAI_URL: 'https://api.openai.com/v1/chat/completions',
+            CONFIG_OPENAI_URL: '',
             CONFIG_OPENAI_TOKEN: '',
-            CONFIG_OPENAI_MODEL: 'gpt-4',
+            CONFIG_OPENAI_MODEL: '',
             CONFIG_TRANSLATE_FROM: '',
             ...window.APP_CONFIG || {},
         };
-    }
-
-    static validateConfig(): boolean {
-        return AppConfig.getOpenAiToken() !== '';
     }
 
     static getOpenAiUrl(): string {
