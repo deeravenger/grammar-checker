@@ -1,0 +1,12 @@
+name: "Build and publish MASTER branch to the Docker Hub"
+on:
+    release:
+        types:
+            - created
+
+jobs:
+    build_and_publish_release_to_docker_hub:
+        uses: ./.github/workflows/build_and_publish.yml
+        with:
+            DOCKER_IMAGE_APP: "dmitryapp/grammar-checker:${{ github.event.release.tag_name }}"
+        secrets: inherit
